@@ -2,16 +2,33 @@
 <head>
   <meta charset="utf-8">
   <title>Rock Paper Scissors</title>
+ 
   </head>
 <body>
+<h1>Choose rock, paper or scissors</h1>
+    <button class='rock' onclick="game('rock')">Rock</button>
+    <button class='paper' onclick="game('paper')">Paper</button>
+    <button class='scissors' onclick="game('scissors')" >Scissors</button>
+    <div class='results'></div>
   <script>
-    let playerScore;
-    let computerScore;
-    let round;
+    let playerScore = 0;
+    let computerScore = 0;
+    let round = 0;
+    const para = document.createElement('p');
+    const container = document.querySelector('div');
     let gameChoices = ['rock','paper','scissors'];
     function computerPlay(){
       let randomNumber = Math.floor(Math.random()*gameChoices.length);
       return gameChoices[randomNumber];
+    }
+    function getResult(){
+      if (playerScore>computerScore){
+        return "You win the game by: " + playerScore + ":" + computerScore + "! Congratulations!";
+      } else if(computerScore>playerScore) {
+        return "You lose the game by: " + computerScore + ":" + playerScore + "! Sorry, try again!";
+      } else{
+        return "The game ends in a draw! The score is: " + playerScore + ":" + computerScore + "!";
+      }
     }
     function playRound (playerSelection, computerSelection){
       if (playerSelection.toLowerCase() === 'rock' ){
@@ -74,20 +91,19 @@
             
           }
     }
-    function game(){
-      playerScore = 0;
-      computerScore = 0;
-      for(round = 0; round < 5; round++){
-        console.log(playRound(prompt("Please choose rock, paper or scissors!",''),computerPlay()));
-        }
-      if (playerScore>computerScore){
-        return "You win the game by: " + playerScore + ":" + computerScore + "! Congratulations!";
-      } else if(computerScore>playerScore) {
-        return "You lose the game by: " + computerScore + ":" + playerScore + "! Sorry, try again!";
-      } else{
-        return "The game ends in a draw! The score is: " + playerScore + ":" + computerScore + "!";
+    function game(playerButton){
+      
+      round++;
+      para.textContent = playRound(playerButton,computerPlay());
+      if (round>=5){
+        para.textContent=getResult();
+        round = 0;
+        playerScore = 0;
+        computerScore = 0;
       }
-    }
+      container.appendChild(para);
+      }
+
   </script>
 </body>
 </html>
